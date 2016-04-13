@@ -1,0 +1,90 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery Mobile Web App</title>
+<link rel="stylesheet" href="themes/Theme.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" /> 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
+<script src="http://code.jquery.com/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+</head> 
+
+
+ <script>
+ /////////////////////////
+//show favourite script//
+/////////////////////////
+        $(document).ready(function() {
+         	 $.getJSON('show_favourite.php', function(data) {
+				var i=0;
+				$.each(data, function(key, val) {
+				$("#detail").append("<br> <a href='drug/" + val.drug_name + ".html' rel='external'>"+val.drug_name+"<button onclick='deletedata("+val.id+")' id=deletebtn_"+i+">"+"Delete"+"</button></a></br>");
+				i+=1;
+				});
+
+			  });
+		});
+		
+///////////////////////////
+//delete favourite script//
+///////////////////////////
+ function deletedata(id){
+	 
+	//alert(id); 
+	var URLs="delete_favourite.php";
+          
+	var favourite_id = id;
+	
+		
+    var myData = "favourite_id="+ favourite_id; 
+	//alert(myData);
+	$.ajax({
+                	url: URLs,
+                	data: myData,
+					type:"DELETE",
+					dataType:'text',
+
+               		success: function(msg){
+					alert("you delete the data");
+              	  	},
+
+              	 	error:function(xhr, ajaxOptions, thrownError){
+                 	   alert(xhr.status);
+               	 	   alert(thrownError);
+              	   }
+         	  	 });
+ }
+</script>
+
+
+
+
+
+
+
+
+
+<body> 
+
+<div data-role="page" id="page" data-add-back-btn="true">
+	<div data-role="header">
+		<h1>Page One</h1>
+	</div>
+    
+	<div>	
+		<h3>My favourites:</h3>
+	</div>
+    <div id="detail">
+    </div>
+    
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div>
+</div>
+
+
+</body>
+</html>

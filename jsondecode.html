@@ -1,0 +1,32 @@
+<html>
+<head>
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'></script>
+</head>
+<body>
+
+        <!-- this UL will be populated with the data from the php array -->
+        <ul></ul>
+
+        <script type='text/javascript'>
+        $(document).ready(function(){
+                /* call the php that has the php array which is json_encoded */
+                $.getJSON('jsonencode.php', function(data) {
+                        /* data will hold the php array as a javascript object */
+			alert(data);
+			jsondata = JSON.stringify(data);
+			alert(jsondata);
+			$('.result_box').html(jsondata);
+			
+            $.each(data, function(key, val) {
+                                $('ul').append('<li id="' + key + '">' + val.firstName + ' ' + val.lastName + ' ' + val.age + ' ' + val.gender + '</li>');
+                        
+			});
+                });
+
+        });
+        </script>
+
+</body>
+
+test
+</html>

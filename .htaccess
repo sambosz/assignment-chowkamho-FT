@@ -1,0 +1,13 @@
+RewriteEngine on
+RewriteRule    ^test/([0-9]+)/([0-9]+)/?$    JSON2/verify.php?item1=$1&item2=$2    [NC,L]
+RewriteRule    ^s_c/(.*)/$          show_comments.php?drug=$1
+RewriteRule    ^a_c/$               add_comments.php
+RewriteRule    ^a_f/$               add_favourite.php
+RewriteRule    ^c_p/$               change_password.php
+RewriteRule    ^d_c/$               delete_comments.php
+RewriteRule    ^d_f/$               delete_favourite.php
+RewriteRule    ^l/$                 login.php
+RewriteRule    ^s/$                 searching.php
+RewriteRule    ^s_f/$               show_favourite.php
+RewriteRule    ^u/$                 user.php
+RewriteRule    ^ul/$                userLogout.php

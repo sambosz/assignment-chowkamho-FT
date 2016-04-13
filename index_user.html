@@ -1,0 +1,91 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery Mobile Web App</title>
+<link rel="stylesheet" href="themes/Theme.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" /> 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
+<script src="http://code.jquery.com/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+</head> 
+
+////////////////////////
+//set up the user name//
+////////////////////////
+<script>
+$(document).ready(function() {
+				var URLs="user.php";
+				$.ajax({
+                	url: URLs,
+					type:"GET",
+					success: function(msg){
+						$("#footer").html("<h3 align = center>"+"Welcome to drug info! "+msg+"!"+"<h3>");
+						},
+					error:function(xhr, ajaxOptions, thrownError){
+                 	   alert(xhr.status);
+               	 	   alert(thrownError);
+              	   }
+				});
+			
+	});
+
+</script>
+
+//-------end the set up
+
+///////////////////
+//logout function//
+///////////////////
+<script>
+$(document).ready(function() {
+		$("#Logoutbtn").click(function() {
+				var URLs="userLogout.php";
+				$.ajax({
+                	url: URLs,
+					type:"POST",
+					success: function(msg){
+						alert("You are logout now, good bye!");
+						window.location.href="index_visitor.html";
+						},
+					error:function(xhr, ajaxOptions, thrownError){
+                 	   alert(xhr.status);
+               	 	   alert(thrownError);
+              	   }
+				});
+		});
+	});
+
+</script>
+
+//--end the logout
+
+/////////////
+//main page//
+/////////////
+<body> 
+<div data-role="page" id="page">
+	<div data-role="header">
+		<h1>
+		  <input type="submit" name="Logout" id="Logoutbtn" value="Logout">
+	    Page One</h1>
+	</div>
+	<div data-role="content">	
+		<ul data-role="listview">
+        	<li><a href="change_password.html" rel="external">Change password</a></li>
+			<li><a href="favourite.html" rel="external">My Favourites</a></li>
+            <li><a href="drug/drug_info.html" rel="external">Drug information</a></li>
+            <li><a href="searching.html" rel="external">Searching</a></li>
+            <li><a href="api_map.html" rel="external">find us</a></li>
+		</ul>		
+	</div>
+	<div data-role="footer" id="footer">
+		<h4>Page Footer</h4>
+	</div>
+</div>
+
+
+</body>
+</html>

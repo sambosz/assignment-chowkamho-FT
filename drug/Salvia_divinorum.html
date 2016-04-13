@@ -1,0 +1,220 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery Mobile Web App</title>
+<link rel="stylesheet" href="../themes/Theme.css" />
+<link rel="stylesheet" href="../themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" /> 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
+<script src="http://code.jquery.com/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+</head> 
+
+
+<script>
+var drug= "Salvia_divinorum";
+////////////////////////
+//add favourite script//
+////////////////////////
+
+//<-- error message done
+function add_favourite(user){
+	 
+	//alert(user); 
+	
+	//set the php location
+	var URLs="../add_favourite.php";
+    
+	var user_name = user;
+	//var drug_name = "GBL";
+	
+    var myData = "username=" + user_name +"&favourite="+ drug; 
+	//alert(myData);
+	$.ajax({
+   		  url: URLs,
+  		  data: myData,
+		  type:"POST",
+		  dataType:'text',
+
+          success: function(msg){
+		  	alert(msg);
+          },
+
+          error:function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(thrownError);
+          }
+    });
+}
+// end the add favourite
+
+
+////////////////////////
+//set up the user name//
+////////////////////////
+//--> this function is using for cheak the user name
+//    if user do not longin, it will not allow the user add favourite
+
+
+$(document).ready(function() {
+	var URLs="../user.php";
+	$.ajax({
+    	url: URLs,
+		type:"GET",
+		success: function(msg){
+			if(msg != "")
+				$("#add").append("<button onclick='add_favourite(\""+msg+"\")'>Add to my favourite</button>");
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+    	    alert(xhr.status);
+     	    alert(thrownError);
+   		}
+	});	
+});
+
+
+
+		
+</script>
+
+<script>
+///////////////////////	
+//get comments script//
+///////////////////////
+	$(document).ready(function() {
+		//var drug= "GBL";
+    	$.getJSON('../show_comments.php?drug='+drug, function(data) {
+			var i=0;
+			//alert(data);
+			$.each(data, function(key, val) {
+				$("#detail").append(
+				"<table width='500' border='3'>" +
+				"<tr>"+
+				"<td>"+ val.user_name + "</td>" +
+				"<td>"+ val.timestamp + "</td>" +
+				"<td>"+ "<button data-role='button' onclick='deletedata(" + val.id + ")' id=deletebtn_" + i + ">" + "Delete" + "</button>" + "</td>" +
+				"</tr>"+
+				"<tr>"+
+				"<td  colspan='3'>"+ val.user_comment + "</td>");
+				i+=1;
+			});
+	  	});
+	});
+	
+///////////////////////////
+//delete favourite script//
+///////////////////////////
+
+//<-- error message done
+function deletedata(id){
+	 
+	//alert(id); 
+	var URLs="../delete_comments.php";
+          
+	var comments_id = id;
+	
+		
+    var myData = "comments_id="+ comments_id; 
+	//alert(myData);
+	$.ajax({
+                	url: URLs,
+                	data: myData,
+					type:"Delete",
+					dataType:'text',
+
+               		success: function(msg){
+						alert(msg);
+						location.reload();
+              	  	},
+
+              	 	error:function(xhr, ajaxOptions, thrownError){
+                 	   alert(xhr.status);
+               	 	   alert(thrownError);
+              	   }
+         	  	 });
+ }
+		
+</script>
+
+
+///////////////////////
+//add comments script//
+///////////////////////
+
+//<-- error message done
+
+ <script>
+
+        $(document).ready(function() {
+			$("#comments_btn").click(function() {
+			//alert("you click the buttom");
+			    var URLs="../add_comments.php";
+          		//var drug= "GBL";
+				var comments =$("#comments_textbox").val();
+				var myData = "user_comments="+comments + "& drug_name=" + drug;
+				alert(myData);
+				if(comments != ""){
+			 	$.ajax({
+                	url: URLs,
+                	data: myData,
+					type:"POST",
+					dataType:'text',
+
+               		success: function(msg){
+						alert(msg);
+                        location.reload();
+              	  	},
+
+              	 	error:function(xhr, ajaxOptions, thrownError){
+                 	   alert(xhr.status);
+               	 	   alert(thrownError);
+              	   }
+         	  	 });
+				}else
+					alert("you need to type something!");
+
+			});
+		});
+		
+</script>
+
+
+
+<body> 
+
+<div data-role="page" id="page" data-add-back-btn="true">
+	<div data-role="header">
+		<h1>Page One</h1>
+	</div>
+	<div data-role="content">
+	  <h2>Salvia divinorum</h2>
+	  <p align="justify"><strong>Salvia divinorum</strong> (containing active psychoactive molecule salvinorin-A) is an herbal plant originating in Mexico. It is often consumed by inhaling fumes generated from burning the leaves in a tube, or chewing. Smoking for one minute can lead to hallucinations of about 15-20 minutes; and chewing 2-5 grams of its dried leaves or 10-30 grams of its fresh leaves would produce extended hallucination of low to medium potency. Salvia divinorum and salvinorin-A are controlled under the Dangerous Drugs Ordinance since 14 July 2012.</p>
+      <p><img src="SalviaDivinorum01.jpg">
+      </p>
+      <p><img src="SalviaDivinorum02.jpg">
+      </p>
+      <p align="justify"><strong>Effects :</strong><br>
+      Abusers may experience uncoordinated bodily movements, vertigo and slurred speech.</p>
+	  <p>&nbsp;</p>
+	</div>
+    <div id = "add"></div>
+	<div data-role="content">
+	  <p>
+	    <label for="comments_textbox2"></label>
+	    <textarea name="comments_textbox" id="comments_textbox"></textarea>	
+      </p>
+	  <p>
+	    <input type="submit" name="comments_btn" id="comments_btn" value="send">
+	  </p>
+	</div>
+    <div id="detail"></div>
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div>
+</div>
+
+
+</body>
+</html>
